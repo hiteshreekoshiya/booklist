@@ -17,7 +17,8 @@ const App = () => {
   const [isEditItem, isSetEditItem] = useState(null);
 
 
-  const addEvent = () => {
+  const addEvent = (e) => {
+    e.preventDefault()
     if (!toggleSave) {
 
       // really good way :)
@@ -78,6 +79,7 @@ const App = () => {
           </div>
 
           <div className="center-part">
+            <form>
             <label>Title</label><br />
             <input type="text"
               name="title"
@@ -97,10 +99,11 @@ const App = () => {
               onChange={e => setBookData({ ...bookData, isbn: e.target.value })} /><br />
             {
               toggleSave ?
-                <button className="save-button" onClick={addEvent}>Save Book</button>
+                <button type="submit" className="save-button" onClick={addEvent}>Save Book</button>
                 :
-                <button className="save-button" onClick={addEvent}>Edit Book</button>
+                <button type="submit" className="save-button" onClick={addEvent}>Edit Book</button>
             }
+            </form>
           </div>
 
           <div className="last-div">
