@@ -109,8 +109,8 @@ const App = () => {
                   <th>Title</th>
                   <th> Author</th>
                   <th>ISBN#</th>
-                  <th></th>
-                  <th></th>
+                  <th>Edit</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               {
