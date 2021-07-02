@@ -19,19 +19,20 @@ const App = () => {
 
   const addEvent = () => {
     if (!toggleSave) {
-      setData(
-        data.map((elem) => {
-          if (elem.id === isEditItem) {
-            return {
-              ...elem,
-              title: bookData.title,
-              author: bookData.author,
-              isbn: bookData.isbn
-            };
-          }
-          return elem;
-        })
-      );
+
+      // really good way :)
+      let editedObjArr = data.map((elem) => {
+        if (elem.id === isEditItem) {
+          return {
+            ...elem,
+            title: bookData.title,
+            author: bookData.author,
+            isbn: bookData.isbn
+          };
+        }
+        return elem;
+      })
+      setData(editedObjArr);
       setToggleSave(true);
       setBookData({ title: '', author: '', isbn: '' });
       isSetEditItem(null);
