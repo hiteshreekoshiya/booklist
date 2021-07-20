@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import './index.css';
 import Logo from "./image/logo.png";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import BookList from './BookList';
 
 const App = () => {
 
@@ -106,36 +105,9 @@ const App = () => {
             </form>
           </div>
 
-          <div className="last-div">
-            <table className="table table-bordered">
-              <thead>
-                <tr className="top-row">
-                  <th>Title</th>
-                  <th> Author</th>
-                  <th>ISBN#</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              {
-                data.map((book) => {
-                  return (
-                    <>
-                      <tbody>
-                        <tr className="all-row" key={book.id}>
-                          <td>{book.title}</td>
-                          <td>{book.author}</td>
-                          <td>{book.isbn}</td>
-                          < td > <EditIcon onClick={() => EditEvent(book.id)} /></td>
-                          <td><DeleteIcon onClick={() => deleteEvent(book.id)} /></td>
-                        </tr>
-                      </tbody>
-                    </>
-                  );
-                })
-              }
-            </table>
-          </div>
+          {/* sending props data,EditEvent,deleteEvent in our BookList child component */}
+          {/* before this we were utilizing this (data state variable) and these methods in this app.js component itself. but now we sent just because of using in our child component */}
+          <BookList data={data} EditEvent={EditEvent} deleteEvent={deleteEvent}/>
         </div>
       </div>
     </>
