@@ -1,11 +1,13 @@
 import React from 'react';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Route, Switch } from "react-router-dom";
 import Home from "./Home.jsx";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
-import Navbar from './Navbar.jsx';
 import { auth } from "./firebase";
 import { useState, useEffect } from 'react';
+import ButtonAppBar from "./Nav";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -14,6 +16,7 @@ const App = () => {
     auth.onAuthStateChanged(user => {
       if (user) {
         setUser(user);
+
       }
       else {
         setUser(null);
@@ -22,7 +25,7 @@ const App = () => {
   }, [])
   return (
     <>
-      <Navbar user={user} />
+      <ButtonAppBar user={user} />
       <Switch>
         <Route exact path="/home" component={Home} />
         <Route exact path="/signin" component={SignIn} />

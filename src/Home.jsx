@@ -78,29 +78,31 @@ const App = () => {
                     </div>
 
                     <div className="center-part">
-                        <label>Title</label><br />
-                        <input type="text"
-                            name="title"
-                            value={bookData.title}
-                            onChange={e => setBookData({ ...bookData, title: e.target.value })} /><br />
+                        <form>
+                            <label>Title</label><br />
+                            <input type="text"
+                                name="title"
+                                value={bookData.title}
+                                onChange={e => setBookData({ ...bookData, title: e.target.value })} /><br />
 
-                        <label>Author</label><br />
-                        <input type="text"
-                            name="author"
-                            value={bookData.author}
-                            onChange={e => setBookData({ ...bookData, author: e.target.value })} /><br />
+                            <label>Author</label><br />
+                            <input type="text"
+                                name="author"
+                                value={bookData.author}
+                                onChange={e => setBookData({ ...bookData, author: e.target.value })} /><br />
 
-                        <label>ISBN#</label><br />
-                        <input type="text"
-                            name="isbn"
-                            value={bookData.isbn}
-                            onChange={e => setBookData({ ...bookData, isbn: e.target.value })} /><br />
-                        {
-                            toggleSave ?
-                                <button className="save-button" onClick={addEvent}>Save Book</button>
-                                :
-                                <button className="save-button" onClick={addEvent}>Edit Book</button>
-                        }
+                            <label>ISBN#</label><br />
+                            <input type="text"
+                                name="isbn"
+                                value={bookData.isbn}
+                                onChange={e => setBookData({ ...bookData, isbn: e.target.value })} /><br />
+                            {
+                                toggleSave ?
+                                    <button className="save-button" onClick={addEvent}>Save Book</button>
+                                    :
+                                    <button className="save-button" onClick={addEvent}>Edit Book</button>
+                            }
+                        </form>
                     </div>
                     <div>
                         <BookList data={data} EditEvent={EditEvent} deleteEvent={deleteEvent} />
