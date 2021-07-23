@@ -17,7 +17,10 @@ const App = () => {
 
     const addEvent = (e) => {
         e.preventDefault();
-        if (!toggleSave) {
+        if (!bookData.title || !bookData.author || !bookData.isbn) {
+            alert("plz fill data...");
+        }
+        else if (!toggleSave) {
 
             let editedObjArr = data.map((elem) => {
                 if (elem.id === isEditItem) {
