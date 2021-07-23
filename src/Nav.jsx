@@ -32,14 +32,14 @@ export default function ButtonAppBar(props) {
                         <Typography variant="h6" className={classes.title}> </Typography>
                         {
                             props.user ?
-                                <button type="button" class="btn btn-danger" onClick={() => {
+                                <button type="button" className="btn btn-danger" onClick={() => {
                                     auth.signOut();
-                                    history.push("/signin");
+                                    history.push("/");
                                 }}>Log Out</button>
                                 :
                                 <>
                                     <NavLink style={{ color: "white", padding: "10px" }} exact to="/signup">Sign Up</NavLink>
-                                    <NavLink style={{ color: "white", padding: "10px" }} exact to="/signin"> Sign In</NavLink>
+                                    <NavLink style={{ color: "white", padding: "10px" }} exact to="/"> Sign In</NavLink>
                                 </>
                         }
 

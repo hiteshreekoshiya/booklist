@@ -107,7 +107,7 @@ const App = () => {
                             }
                         </form>
                     </div>
-                    <div>
+                    <div style={{width:'100%'}}>
                         <BookList data={data} EditEvent={EditEvent} deleteEvent={deleteEvent} />
                     </div>
                 </div>
