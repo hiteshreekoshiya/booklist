@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import "./index.css";
 import { useHistory } from "react-router-dom";
 import { auth } from "./firebase";
+import { AuthContext } from "./Auth/Auth";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,9 +21,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ButtonAppBar(props) {
+export default function ButtonAppBar() {
     const classes = useStyles();
     const history = useHistory();
+    const { currentUser } = useContext(AuthContext);
 
     return (
         <>
@@ -31,15 +33,15 @@ export default function ButtonAppBar(props) {
                     <Toolbar>
                         <Typography variant="h6" className={classes.title}> </Typography>
                         {
-                            props.user ?
-                                <button type="button" class="btn btn-danger" onClick={() => {
+                            currentUser ?
+                                <button type="button" className="btn btn-danger" onClick={() => {
                                     auth.signOut();
-                                    history.push("/signin");
+                                    history.push("/");
                                 }}>Log Out</button>
                                 :
                                 <>
                                     <NavLink style={{ color: "white", padding: "10px" }} exact to="/signup">Sign Up</NavLink>
-                                    <NavLink style={{ color: "white", padding: "10px" }} exact to="/signin"> Sign In</NavLink>
+                                    <NavLink style={{ color: "white", padding: "10px" }} exact to="/"> Sign In</NavLink>
                                 </>
                         }
 

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './index.css';
-import Logo from "./image/logo.png";
+import Logo from "./images/logo.png";
 import BookList from "./BookList.jsx";
+import { db } from "./firebase";
+import { AuthContext } from "./Auth/Auth";
 
 const App = () => {
 
@@ -13,7 +15,32 @@ const App = () => {
     const [data, setData] = useState([]);
     const [toggleSave, setToggleSave] = useState(true);
     const [isEditItem, isSetEditItem] = useState(null);
+    const { currentUser } = useContext(AuthContext);
+    const docs = [];
 
+    useEffect(() => {
+        db.collection('booksdata').where('userid', '==', currentUser.uid)
+            .get().then((qSnapshot) => {
+                qSnapshot.forEach((doc) => {
+                    console.log(doc.id, doc.data());
+                    docs.push(doc.data());
+                });
+                setData(docs);
+            })
+            .catch((error) => {
+                console.log("Error:", error);
+            })
+    }, [])
+
+    const refreshdata = () => {
+        db.collection('booksdata').where('userid', '==', currentUser.uid)
+            .get().then((qSnapshot) => {
+                qSnapshot.forEach((doc) => {
+                    docs.push(doc.data());
+                });
+                setData(docs);
+            })
+    };
 
     const addEvent = (e) => {
         e.preventDefault();
@@ -22,41 +49,57 @@ const App = () => {
         }
         else if (!toggleSave) {
 
-            let editedObjArr = data.map((elem) => {
-                if (elem.id === isEditItem) {
-                    return {
-                        ...elem,
-                        title: bookData.title,
-                        author: bookData.author,
-                        isbn: bookData.isbn
-                    };
-                }
-                return elem;
-            })
-            setData(editedObjArr);
+            /*  let editedObjArr = data.map((elem) => {
+                  if (elem.id === isEditItem) {
+                      return {
+                          ...elem,
+                          title: bookData.title,
+                          author: bookData.author,
+                          isbn: bookData.isbn
+                      };
+                  }
+                  return elem;
+              })
+              setData(editedObjArr);*/
+            db.collection('booksdata').doc(isEditItem).update({
+                title: bookData.title,
+                author: bookData.author,
+                isbn: bookData.isbn
+            }).then(() => {
+                refreshdata();
+            });
+
             setToggleSave(true);
             setBookData({ title: '', author: '', isbn: '' });
             isSetEditItem(null);
         }
 
         else {
+            const docRef = db.collection('booksdata').doc();
             const newData = {
-                id: new Date().getTime().toString(),
+                userid: currentUser.uid,
+                id: docRef.id,
                 title: bookData.title,
                 author: bookData.author,
                 isbn: bookData.isbn
             }
-            setData([...data, newData]);
+            //setData([...data, newData]);
             setBookData({ title: '', author: '', isbn: '' });
+            docRef.set(newData).then(() => {
+                refreshdata();
+            });
         }
     }
 
     const deleteEvent = (indx) => {
-        const deleteItem = data.filter((elem) => {
-            return indx !== elem.id;
-        });
-
-        setData(deleteItem);
+        /* const deleteItem = data.filter((elem) => {
+             return indx !== elem.id;
+         });
+ 
+         setData(deleteItem);*/
+        db.collection('booksdata').doc(indx).delete().then(() => {
+            refreshdata();
+        });;
     }
 
     const EditEvent = (indx) => {
@@ -107,7 +150,7 @@ const App = () => {
                             }
                         </form>
                     </div>
-                    <div>
+                    <div style={{ width: '100%' }}>
                         <BookList data={data} EditEvent={EditEvent} deleteEvent={deleteEvent} />
                     </div>
                 </div>

@@ -11,8 +11,7 @@ function SignUp() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await auth.createUserWithEmailAndPassword(email, pass);
-            alert(`${response.user.email}`);
+            await auth.createUserWithEmailAndPassword(email, pass);
             history.push("/home");
         }
         catch (err) {
@@ -23,11 +22,11 @@ function SignUp() {
     return (
         <>
             <div className="main_div">
-                <form>
+            <form onSubmit={handleSubmit}>
                     <h3>Please Sign Up...</h3>
                     <input type="email" placeholder="Enter Email Id" value={email} onChange={(e) => { setEmail(e.target.value) }} /><br />
                     <input type="password" placeholder="Enter Password" value={pass} onChange={(e) => { setPass(e.target.value) }} /><br />
-                    <button onClick={(e) => { handleSubmit(e) }} type="button" class="btn btn-primary">Sign Up</button>
+                    <button type="submit" className="btn btn-primary">Sign Up</button>
                 </form>
             </div>
         </>
